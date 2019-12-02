@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/boton_porcentaje_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/porcentajehome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/boton_uno_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/unohome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_porcentaje_home"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/boton_cuatro_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/cuatrohome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_uno_home"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/boton_siete_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/sietehome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_cuatro_home"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/boton_suma_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/sumahome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_siete_home"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/boton_resta_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/restahome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_ocho_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_suma_home" />
+
+    <Button
+        android:id="@+id/boton_multiplicacion_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/multiplicacionhome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_nueve_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_resta_home" />
+
+    <Button
+        android:id="@+id/boton_division_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/divisionhome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_ac_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_multiplicacion_home" />
+
+    <Button
+        android:id="@+id/boton_ocho_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/ochohome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_cinco_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_siete_home" />
+
+    <Button
+        android:id="@+id/boton_nueve_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/nuevehome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_seis_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_ocho_home" />
+
+    <Button
+        android:id="@+id/boton_ac_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/achome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_igual_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_nueve_home" />
+
+    <Button
+        android:id="@+id/boton_igual_home"
+        android:layout_width="102.5dp"
+        android:layout_height="130dp"
+        android:background="@drawable/boton"
+        android:text="@string/igualhome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_borrar_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_seis_home" />
+
+    <Button
+        android:id="@+id/boton_cinco_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/cincohome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_dos_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_cuatro_home" />
+
+    <Button
+        android:id="@+id/boton_seis_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/seishome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_tres_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_cinco_home" />
+
+    <Button
+        android:id="@+id/boton_dos_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/doshome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_cero_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_uno_home" />
+
+    <Button
+        android:id="@+id/boton_tres_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/treshome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/boton_punto_home"
+        app:layout_constraintStart_toEndOf="@+id/boton_dos_home" />
+
+    <Button
+        android:id="@+id/boton_cero_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/cerohome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/boton_porcentaje_home" />
+
+    <Button
+        android:id="@+id/boton_punto_home"
+        android:layout_width="102.5dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/puntohome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/boton_cero_home" />
+
+    <Button
+        android:id="@+id/boton_borrar_home"
+        android:layout_width="103dp"
+        android:layout_height="65dp"
+        android:background="@drawable/boton"
+        android:text="@string/borrarhome"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/boton_punto_home" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

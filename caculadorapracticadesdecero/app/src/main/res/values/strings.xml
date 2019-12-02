@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Calculadora Practica</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="fragment_home">Hola Fragmento Principal</string>
+    <string name="fragment_chat">Hola Fragmento Chat</string>
+    <string name="fragment_calculadora">Hola Fragmento Calculadora</string>
+    <string name="fragment_cientifica">Hola Fragmento Cientifica</string>
+    <string name="fragment_share">Hola Fragmento Share</string>
+    <string name="fragment_send">Hola Fragmento Send</string>
+
+    <string name="porcentajehome">%</string>
+    <string name="cerohome">0</string>
+    <string name="puntohome">.</string>
+    <string name="unohome">1</string>
+    <string name="doshome">2</string>
+    <string name="treshome">3</string>
+    <string name="cuatrohome">4</string>
+    <string name="cincohome">5</string>
+    <string name="seishome">6</string>
+    <string name="sietehome">7</string>
+    <string name="ochohome">8</string>
+    <string name="nuevehome">9</string>
+    <string name="achome">A C</string>
+    <string name="sumahome">+</string>
+    <string name="restahome">-</string>
+    <string name="multiplicacionhome">x</string>
+    <string name="divisionhome">÷</string>
+    <string name="igualhome">=</string>
+    <string name="borrarhome">⌫</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
