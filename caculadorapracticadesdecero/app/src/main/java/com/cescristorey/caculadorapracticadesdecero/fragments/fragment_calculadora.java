@@ -25,7 +25,7 @@ public class fragment_calculadora extends Fragment {
     }
 
 
-    Integer primeravez = 0 , contador_igual=0, contador = 0;
+    Integer primeravez = 0 , contador_igual=0, contador = 0, contador_punto = 0;
     Double sumatotal = 0.0;
     Double sum1 = 0.0;
     String operando = "";
@@ -43,6 +43,8 @@ public class fragment_calculadora extends Fragment {
                 sumatotal /= sum1;
             } else if (operando == "x") {
                 sumatotal = sumatotal * sum1;
+            }else if (operando == "%") {
+                sumatotal = (sumatotal * sum1)/100;
             }
         }
     }
@@ -51,7 +53,8 @@ public class fragment_calculadora extends Fragment {
                              Bundle savedInstanceState) {
         final TextView calculo, cadenacalculo, debug;
         Button boton0, boton1, boton2, boton3, boton4, boton5, boton6, boton7, boton8, boton9,
-                botonPunto, botonSuma, botonResta, botonMultiplicacion, botonDivision, botonIgual, botonAC, botonPorcentaje;
+                botonPunto, botonSuma, botonResta, botonMultiplicacion, botonDivision, botonIgual, botonAC, botonPorcentaje,
+                botonBorrar;
 
 
         vista = inflater.inflate(R.layout.layout_fragment_calculadora, container, false);
@@ -150,6 +153,17 @@ public class fragment_calculadora extends Fragment {
             }
         });
 
+        botonPunto = vista.findViewById(R.id.boton_punto_home);
+        botonPunto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(contador_punto == 0){
+                    calculo.setText(calculo.getText() + ".");
+                    contador = 1;
+                    contador_punto = 1;
+                }
+            }
+        });
         botonAC = vista.findViewById(R.id.boton_ac_home);
         botonAC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +175,7 @@ public class fragment_calculadora extends Fragment {
                 primeravez = 0;
                 sum1 = 0.0;
                 sumatotal = 0.0;
+                contador_punto = 0;
                 operando = "";
                 //debug.setText("");
 
@@ -171,6 +186,7 @@ public class fragment_calculadora extends Fragment {
         botonSuma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
                 String cadena = (String) cadenacalculo.getText();
                 if(primeravez == 0) {
@@ -181,6 +197,7 @@ public class fragment_calculadora extends Fragment {
                     calculo.setText("");
                     contador = 1;
                     primeravez = 1;
+                    contador_punto= 0;
                 }else if(contador == 0){
                     identificar(operando,sum1);
                     operando = "+";;
@@ -188,6 +205,7 @@ public class fragment_calculadora extends Fragment {
                     cadenacalculo.setText(cadena + calculo.getText() + "+");
                     calculo.setText("");
                     contador = 1;
+                    contador_punto= 0;
                 }
 
 
@@ -208,6 +226,7 @@ public class fragment_calculadora extends Fragment {
                         calculo.setText("");
                         contador = 1;
                         primeravez = 1;
+                        contador_punto= 0;
                     }else if(contador == 0){
                         identificar(operando, sum1);
                         operando = "-";
@@ -215,6 +234,7 @@ public class fragment_calculadora extends Fragment {
                         cadenacalculo.setText(cadena + calculo.getText() + "-");
                         calculo.setText("");
                         contador = 1;
+                        contador_punto= 0;
                     }
                 }
         });
@@ -233,6 +253,7 @@ public class fragment_calculadora extends Fragment {
                     calculo.setText("");
                     contador = 1;
                     primeravez = 1;
+                    contador_punto= 0;
                 }else if(contador == 0){
                     identificar(operando,sum1);
                     operando = "x";
@@ -240,6 +261,7 @@ public class fragment_calculadora extends Fragment {
                     cadenacalculo.setText(cadena + calculo.getText() + "*");
                     calculo.setText("");
                     contador = 1;
+                    contador_punto= 0;
                 }
             }
         });
@@ -258,6 +280,7 @@ public class fragment_calculadora extends Fragment {
                     calculo.setText("");
                     contador = 1;
                     primeravez = 1;
+                    contador_punto= 0;
                 }else if(contador == 0){
                     identificar(operando,sum1);
                     operando = "/";
@@ -265,7 +288,35 @@ public class fragment_calculadora extends Fragment {
                     cadenacalculo.setText(cadena + calculo.getText() + "/");
                     calculo.setText("");
                     contador = 1;
+                    contador_punto= 0;
 
+                }
+            }
+        });
+
+        botonPorcentaje = vista.findViewById(R.id.boton_porcentaje_home);
+        botonPorcentaje.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                String cadena = (String) cadenacalculo.getText();
+                if(primeravez == 0) {
+                    operando = "%";
+                    identificar(operando,sum1);
+                    //debug.setText(sumatotal.toString());
+                    cadenacalculo.setText(cadena + calculo.getText() + "%");
+                    calculo.setText("");
+                    contador = 1;
+                    primeravez = 1;
+                    contador_punto= 0;
+                }else if(contador == 0){
+                    identificar(operando,sum1);
+                    operando = "%";
+                    //debug.setText(sumatotal.toString());
+                    cadenacalculo.setText(cadena + calculo.getText() + "%");
+                    calculo.setText("");
+                    contador = 1;
+                    contador_punto= 0;
                 }
             }
         });
@@ -274,23 +325,43 @@ public class fragment_calculadora extends Fragment {
         botonIgual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
-                if(contador_igual  == 0) {
-                    identificar(operando,sum1);
-                    String cadena = cadenacalculo.getText().toString();
-                    cadenacalculo.setText(cadena + calculo.getText() + "=");
-                    calculo.setText(sumatotal.toString());
-                    contador_igual = 1;
-                    contador = 1;
-                    primeravez = 1;
+
+                if(sumatotal != 0.0) {
+                    sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                    if (contador_igual == 0) {
+                        identificar(operando, sum1);
+                        String cadena = cadenacalculo.getText().toString();
+                        cadenacalculo.setText(cadena + calculo.getText() + "=");
+                        calculo.setText(sumatotal.toString());
+                        contador_igual = 1;
+                        contador_punto = 1;
+                        contador = 1;
+                        primeravez = 1;
+                    }
+                    Toast toast1 =
+                            Toast.makeText(vista.getContext(), "Pulse AC para continuar", Toast.LENGTH_SHORT);
+                    toast1.show();
                 }
-                Toast toast1 =
-                        Toast.makeText(vista.getContext(),"Pulse AC para continuar", Toast.LENGTH_SHORT);
-                toast1.show();
 
             }
         });
 
+        botonBorrar = vista.findViewById(R.id.boton_borrar_home);
+        botonBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if(calculo.length() > 0){
+                   String cadena_borrar = calculo.getText().toString();
+                    calculo.setText(calculo.getText().toString().substring(0,calculo.length()-1));
+                   String reemplazar = cadena_borrar.substring(cadena_borrar.length()-1);
+
+                   if( reemplazar.equals(".")){
+
+                       contador_punto = 0;
+                   }
+               }
+            }
+        });
 
         return vista;
     }

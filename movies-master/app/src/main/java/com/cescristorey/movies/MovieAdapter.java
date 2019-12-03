@@ -2,14 +2,17 @@ package com.cescristorey.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cescristorey.movies.models.MovieListed;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +104,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
          */
         TextView tvName;
         TextView tvRating;
+        ImageView image;
 
         /*
             Constructor, enlazo los atributos con los elementos del layout
@@ -109,6 +113,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvRating = (TextView) itemView.findViewById(R.id.tv_rating);
+            image = (ImageView) itemView.findViewById(R.id.imageView2);
 
         }
 
@@ -119,6 +124,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
         public void bindMovie(final MovieListed movie, final MovieAdapter.OnItemClickListener listener) {
             tvName.setText(movie.getTitle());
             tvRating.setText("Puntuación: " + movie.getVote_average() + "/10");
+            Picasso.get().load("http://image.tmdb.org/t/p/w500" +movie.getPoster_path()).into(image);
 
             /*Coloco el Listener a la vista)*/
             itemView.setOnClickListener(new View.OnClickListener() {
