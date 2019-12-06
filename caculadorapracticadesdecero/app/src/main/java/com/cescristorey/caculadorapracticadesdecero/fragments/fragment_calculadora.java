@@ -25,7 +25,7 @@ public class fragment_calculadora extends Fragment {
     }
 
 
-    Integer primeravez = 0 , contador_igual=0, contador = 0, contador_punto = 0;
+    Integer primeravez = 0 , contador_igual=0, contador = 0, contador_punto = 0, cont_num=0;
     Double sumatotal = 0.0;
     Double sum1 = 0.0;
     String operando = "";
@@ -69,6 +69,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "0");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -78,6 +79,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "1");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -87,6 +89,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "2");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -96,6 +99,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "3");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -105,6 +109,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "4");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -114,6 +119,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "5");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -123,6 +129,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "6");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -132,6 +139,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "7");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -141,6 +149,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "8");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -150,6 +159,7 @@ public class fragment_calculadora extends Fragment {
             public void onClick(View v) {
                 calculo.setText(calculo.getText() + "9");
                 contador = 0;
+                cont_num=1;
             }
         });
 
@@ -161,6 +171,7 @@ public class fragment_calculadora extends Fragment {
                     calculo.setText(calculo.getText() + ".");
                     contador = 1;
                     contador_punto = 1;
+                    cont_num=1;
                 }
             }
         });
@@ -177,6 +188,7 @@ public class fragment_calculadora extends Fragment {
                 sumatotal = 0.0;
                 contador_punto = 0;
                 operando = "";
+                cont_num=0;
                 //debug.setText("");
 
             }
@@ -186,29 +198,31 @@ public class fragment_calculadora extends Fragment {
         botonSuma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (cont_num >= 1) {
+                    sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                    String cadena = (String) cadenacalculo.getText();
+                    if (primeravez == 0) {
+                        operando = "+";
+                        identificar(operando, sum1);
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "+");
+                        calculo.setText("");
+                        contador = 1;
+                        primeravez = 1;
+                        contador_punto = 0;
+                    } else if (contador == 0) {
+                        identificar(operando, sum1);
+                        operando = "+";
+                        ;
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "+");
+                        calculo.setText("");
+                        contador = 1;
+                        contador_punto = 0;
+                    }
 
-                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
-                String cadena = (String) cadenacalculo.getText();
-                if(primeravez == 0) {
-                    operando = "+";
-                    identificar(operando,sum1);
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "+");
-                    calculo.setText("");
-                    contador = 1;
-                    primeravez = 1;
-                    contador_punto= 0;
-                }else if(contador == 0){
-                    identificar(operando,sum1);
-                    operando = "+";;
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "+");
-                    calculo.setText("");
-                    contador = 1;
-                    contador_punto= 0;
+
                 }
-
-
             }
         });
 
@@ -216,9 +230,10 @@ public class fragment_calculadora extends Fragment {
         botonResta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
-                String cadena = (String) cadenacalculo.getText();
-                    if(primeravez == 0) {
+                if (cont_num >= 1) {
+                    sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                    String cadena = (String) cadenacalculo.getText();
+                    if (primeravez == 0) {
                         operando = "-";
                         identificar(operando, sum1);
                         //debug.setText(sumatotal.toString());
@@ -226,42 +241,45 @@ public class fragment_calculadora extends Fragment {
                         calculo.setText("");
                         contador = 1;
                         primeravez = 1;
-                        contador_punto= 0;
-                    }else if(contador == 0){
+                        contador_punto = 0;
+                    } else if (contador == 0) {
                         identificar(operando, sum1);
                         operando = "-";
                         //debug.setText(sumatotal.toString());
                         cadenacalculo.setText(cadena + calculo.getText() + "-");
                         calculo.setText("");
                         contador = 1;
-                        contador_punto= 0;
+                        contador_punto = 0;
                     }
                 }
+            }
         });
 
         botonMultiplicacion = vista.findViewById(R.id.boton_multiplicacion_home);
         botonMultiplicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
-                String cadena = (String) cadenacalculo.getText();
-                if(primeravez == 0) {
-                    operando = "x";
-                    identificar(operando,sum1);
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "*");
-                    calculo.setText("");
-                    contador = 1;
-                    primeravez = 1;
-                    contador_punto= 0;
-                }else if(contador == 0){
-                    identificar(operando,sum1);
-                    operando = "x";
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "*");
-                    calculo.setText("");
-                    contador = 1;
-                    contador_punto= 0;
+                if (cont_num >= 1) {
+                    sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                    String cadena = (String) cadenacalculo.getText();
+                    if (primeravez == 0) {
+                        operando = "x";
+                        identificar(operando, sum1);
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "*");
+                        calculo.setText("");
+                        contador = 1;
+                        primeravez = 1;
+                        contador_punto = 0;
+                    } else if (contador == 0) {
+                        identificar(operando, sum1);
+                        operando = "x";
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "*");
+                        calculo.setText("");
+                        contador = 1;
+                        contador_punto = 0;
+                    }
                 }
             }
         });
@@ -270,26 +288,28 @@ public class fragment_calculadora extends Fragment {
         botonDivision.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
-                String cadena = (String) cadenacalculo.getText();
-                if(primeravez == 0) {
-                    operando = "/";
-                    identificar(operando,sum1);
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "/");
-                    calculo.setText("");
-                    contador = 1;
-                    primeravez = 1;
-                    contador_punto= 0;
-                }else if(contador == 0){
-                    identificar(operando,sum1);
-                    operando = "/";
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "/");
-                    calculo.setText("");
-                    contador = 1;
-                    contador_punto= 0;
+                if (cont_num >= 1) {
+                    sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                    String cadena = (String) cadenacalculo.getText();
+                    if (primeravez == 0) {
+                        operando = "/";
+                        identificar(operando, sum1);
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "/");
+                        calculo.setText("");
+                        contador = 1;
+                        primeravez = 1;
+                        contador_punto = 0;
+                    } else if (contador == 0) {
+                        identificar(operando, sum1);
+                        operando = "/";
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "/");
+                        calculo.setText("");
+                        contador = 1;
+                        contador_punto = 0;
 
+                    }
                 }
             }
         });
@@ -298,25 +318,27 @@ public class fragment_calculadora extends Fragment {
         botonPorcentaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
-                String cadena = (String) cadenacalculo.getText();
-                if(primeravez == 0) {
-                    operando = "%";
-                    identificar(operando,sum1);
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "%");
-                    calculo.setText("");
-                    contador = 1;
-                    primeravez = 1;
-                    contador_punto= 0;
-                }else if(contador == 0){
-                    identificar(operando,sum1);
-                    operando = "%";
-                    //debug.setText(sumatotal.toString());
-                    cadenacalculo.setText(cadena + calculo.getText() + "%");
-                    calculo.setText("");
-                    contador = 1;
-                    contador_punto= 0;
+                if (cont_num >= 1) {
+                    sum1 = Double.valueOf((String) calculo.getText()).doubleValue();
+                    String cadena = (String) cadenacalculo.getText();
+                    if (primeravez == 0) {
+                        operando = "%";
+                        identificar(operando, sum1);
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "%");
+                        calculo.setText("");
+                        contador = 1;
+                        primeravez = 1;
+                        contador_punto = 0;
+                    } else if (contador == 0) {
+                        identificar(operando, sum1);
+                        operando = "%";
+                        //debug.setText(sumatotal.toString());
+                        cadenacalculo.setText(cadena + calculo.getText() + "%");
+                        calculo.setText("");
+                        contador = 1;
+                        contador_punto = 0;
+                    }
                 }
             }
         });
@@ -331,8 +353,12 @@ public class fragment_calculadora extends Fragment {
                     if (contador_igual == 0) {
                         identificar(operando, sum1);
                         String cadena = cadenacalculo.getText().toString();
+                        String cadena2 = sumatotal.toString();
+                        int longitud = cadena2.length();
                         cadenacalculo.setText(cadena + calculo.getText() + "=");
-                        calculo.setText(sumatotal.toString());
+                        if ((cadena2.charAt(longitud - 2) == '.') && (cadena2.charAt(longitud - 1) == '0'))
+                            cadena2 = cadena2.substring(0, cadena2.length() - 2);
+                        calculo.setText(cadena2);
                         contador_igual = 1;
                         contador_punto = 1;
                         contador = 1;
