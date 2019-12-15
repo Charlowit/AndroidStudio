@@ -1,5 +1,11 @@
 package com.cescristorey.appmovie;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
@@ -12,14 +18,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.cescristorey.appmovie.ModeloPelicula.CreditsFeed;
 import com.cescristorey.appmovie.ModeloPelicula.MovieDetail;
+import com.cescristorey.appmovie.ModeloPelicula.TVShowDetail;
 import com.cescristorey.appmovie.retrofit.MovieService;
 import com.cescristorey.appmovie.retrofit.RetrofitInstance;
 import com.squareup.picasso.Picasso;
@@ -31,17 +32,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import xyz.hanks.library.bang.SmallBangView;
 
-public class Pelicula_Actividad extends AppCompatActivity {
+public class Serie_Actividad extends AppCompatActivity {
+
     ImageView image;
-    TextView estudio, genero, releasedate;
-    TextView titulo,descripcion, texto_estudio,texto_genero, texto_releasedate;
+    TextView estudio, genero, releasedate, numero_episiodios, numero_temporadas;
+    TextView titulo,descripcion, texto_estudio,texto_genero, texto_releasedate,texto_numero_temporadas, texto_numero_episodios;
     RatingBar ratingBar;
     RecyclerView recyclerView;
     CastAdapter castAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pelicula);
+        setContentView(R.layout.activity_serie);
         getSupportActionBar().hide();
         Intent intent = getIntent();
         int id =  intent.getIntExtra("id", 0);
@@ -51,18 +54,18 @@ public class Pelicula_Actividad extends AppCompatActivity {
 
 
     }
-    public void loadPelicula(MovieDetail movie){
+    public void loadPelicula(TVShowDetail movie){
 
         //Primera parte
         final String id_db = String.valueOf((int)movie.getId());
-        final String titulo_db = movie.getTitle();
+        final String titulo_db = movie.getName();
         final String imagen_db = movie.getPoster_path();
         image = findViewById(R.id.image_pelicula);
         titulo = findViewById(R.id.titulo_pelicula);
         ratingBar = findViewById(R.id.ratingBar);
         descripcion = findViewById(R.id.descripcion);
         Picasso.get().load("http://image.tmdb.org/t/p/w500" + movie.getPoster_path()).resize(412, 320).into(image);
-        titulo.setText(movie.getTitle());
+        titulo.setText(movie.getName());
         float puntuacion = (movie.getVote_average()) /2;
         ratingBar.setNumStars(5);
         ratingBar.setRating(puntuacion);
@@ -87,6 +90,11 @@ public class Pelicula_Actividad extends AppCompatActivity {
         texto_estudio = findViewById(R.id.texto_estudio);
         texto_genero = findViewById(R.id.texto_genero);
         texto_releasedate = findViewById(R.id.texto_releasedate);
+        numero_temporadas = findViewById(R.id.numero_temporadas);
+        numero_episiodios = findViewById(R.id.numero_capitulos);
+        texto_numero_temporadas = findViewById(R.id.texto_temporadas);
+        texto_numero_episodios = findViewById(R.id.texto_capitulos);
+
 
         ArrayList<Object> generos;
         ArrayList<Object> productores;
@@ -130,7 +138,9 @@ public class Pelicula_Actividad extends AppCompatActivity {
             }
         }
         texto_genero.setText(cadena1);
-        texto_releasedate.setText(movie.getRelease_date());
+        texto_releasedate.setText(movie.getLast_air_date());
+        texto_numero_temporadas.setText(String.valueOf((int)movie.getNumber_of_seasons()));
+        texto_numero_episodios.setText(String.valueOf((int)movie.getNumber_of_episodes()));
 
         final SmallBangView like_heart = findViewById(R.id.like_heart);
 
@@ -138,7 +148,7 @@ public class Pelicula_Actividad extends AppCompatActivity {
         SQLiteDatabase db = favoritosSQLiteHelper.getReadableDatabase();
 
 
-        Cursor c = db.rawQuery("SELECT * FROM Favoritos WHERE codigo='"+id_db+"' AND es_pelicula='1'",null);
+        Cursor c = db.rawQuery("SELECT * FROM Favoritos WHERE codigo='"+id_db+"' AND es_pelicula='0'",null);
         if (c.moveToFirst()) {
             like_heart.setSelected(true);
         }
@@ -158,7 +168,7 @@ public class Pelicula_Actividad extends AppCompatActivity {
                     FavoritosSQLiteHelper usdbh =
                             new FavoritosSQLiteHelper(getApplicationContext(), "DBFavoritos", null, 1);
                     SQLiteDatabase db = usdbh.getWritableDatabase();
-                    db.execSQL("DELETE FROM Favoritos WHERE codigo='"+id_db+"' AND es_pelicula= '1'");
+                    db.execSQL("DELETE FROM Favoritos WHERE codigo='"+id_db+"' AND es_pelicula= '0'");
                     db.close();
 
                 } else {
@@ -173,7 +183,7 @@ public class Pelicula_Actividad extends AppCompatActivity {
                             new FavoritosSQLiteHelper(getApplicationContext(), "DBFavoritos", null, 1);
                     SQLiteDatabase db = usdbh.getWritableDatabase();
                     if(db != null) {
-                        db.execSQL("INSERT INTO Favoritos (codigo, nombre, foto, es_pelicula) VALUES ('" + id_db + "', '" + titulo_db + "', '" + imagen_db + "', '1')");
+                        db.execSQL("INSERT INTO Favoritos (codigo, nombre, foto, es_pelicula) VALUES ('" + id_db + "', '" + titulo_db + "', '" + imagen_db + "', '0')");
                         db.close();
                     }
                 }
@@ -189,17 +199,17 @@ public class Pelicula_Actividad extends AppCompatActivity {
         /* Crea la instanncia de retrofit */
         MovieService getMovie = RetrofitInstance.getRetrofitInstance().create(MovieService.class);
         /* Se definen los parámetros de la llamada a la función getTopRated */
-        Call<MovieDetail> call = getMovie.getMovie(id, RetrofitInstance.getApiKey(), "es");
+        Call<TVShowDetail> call = getMovie.getTvShow(id, RetrofitInstance.getApiKey(), "es");
         /* Se hace una llamada asíncrona a la API */
-        call.enqueue(new Callback<MovieDetail>() {
+        call.enqueue(new Callback<TVShowDetail>() {
             @Override
-            public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
+            public void onResponse(Call<TVShowDetail> call, Response<TVShowDetail> response) {
                 switch (response.code()) {
                     /* En caso de respuesta correcta */
                     case 200:
                         Log.i("Entra", "hello");
                         /* En el objeto data de la clase MovieFeed se almacena el JSON convertido a objetos*/
-                        MovieDetail data = response.body();
+                        TVShowDetail data = response.body();
                         loadPelicula(data);
                         break;
                     case 401:
@@ -210,7 +220,7 @@ public class Pelicula_Actividad extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MovieDetail> call, Throwable t) {
+            public void onFailure(Call<TVShowDetail> call, Throwable t) {
                 //Toast.makeText(MainActivity.this, "Error cargando películas", Toast.LENGTH_SHORT).show();
             }
         });
@@ -219,7 +229,7 @@ public class Pelicula_Actividad extends AppCompatActivity {
         /* Crea la instanncia de retrofit */
         MovieService getCast = RetrofitInstance.getRetrofitInstance().create(MovieService.class);
         /* Se definen los parámetros de la llamada a la función getTopRated */
-        Call<CreditsFeed> call = getCast.getCast(id,RetrofitInstance.getApiKey(), "es");
+        Call<CreditsFeed> call = getCast.getCastTvShow(id,RetrofitInstance.getApiKey(), "es");
         /* Se hace una llamada asíncrona a la API */
         call.enqueue(new Callback<CreditsFeed>() {
             @Override

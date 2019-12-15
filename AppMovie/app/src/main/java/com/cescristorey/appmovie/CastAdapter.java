@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cescristorey.appmovie.ModeloPelicula.MovieListed;
+import com.cescristorey.appmovie.ModeloPelicula.CreditsListed;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,24 +19,24 @@ import java.util.List;
 /*
     Defino un adaptador que hereda de RecyclerView.Adaptar y que definirá una clase aninada llamada moviesViewHolder
  */
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHolder> {
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.moviesViewHolder> {
     /*
     Atributos
     */
     public final Context context; //Almacena el contexto donde se ejecutará
-    private ArrayList<MovieListed> list; //Almacenará las películas a mostrar
-    private MovieAdapter.OnItemClickListener listener; //Listener para cuando se haga click
+    private ArrayList<CreditsListed> list; //Almacenará las películas a mostrar
+    private CastAdapter.OnItemClickListener listener; //Listener para cuando se haga click
 
     //Defino un interface con el OnItemClickListener
     public interface OnItemClickListener {
-        void onItemClick(MovieListed movie);
+        void onItemClick(CreditsListed movie);
     }
 
     /*
     Constructor
     */
-    public MovieAdapter(Context context) {
-        this.list = new ArrayList<MovieListed>();
+    public CastAdapter(Context context) {
+        this.list = new ArrayList<CreditsListed>();
         this.context = context;
         setListener();
     }
@@ -47,15 +46,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     argumento una película
     */
     private void setListener () {
-        this.listener = new MovieAdapter.OnItemClickListener() {
+        this.listener = new CastAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(MovieListed movie) {
+            public void onItemClick(CreditsListed movie) {
                 //Toast.makeText(context,  movie.getTitle(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(context, Pelicula_Actividad.class);
-                int id = (int) movie.getId();
-                intent.putExtra("id", id);
-                context.startActivity(intent);
+                //Intent intent = new Intent(context, Pelicula_Actividad.class);
+                //int id = (int) movie.getId();
+                //intent.putExtra("id", id);
+                //context.startActivity(intent);
             }
+
         };
     }
 
@@ -66,7 +66,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     @Override
     public moviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_tvshow_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cast_item, parent, false);
         moviesViewHolder tvh = new moviesViewHolder(itemView);
         return tvh;
     }
@@ -78,7 +78,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     @Override
     public void onBindViewHolder(moviesViewHolder holder, int position) {
 
-        final MovieListed movie = list.get(position);
+        final CreditsListed movie = list.get(position);
         holder.bindMovie(movie, listener);
     }
 
@@ -98,7 +98,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
         Atributos
          */
         TextView tvName;
-        RatingBar ratingBar;
         ImageView image;
 
         /*
@@ -106,9 +105,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
          */
         public moviesViewHolder(View itemView) {
             super(itemView);
-            tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
-            image = (ImageView) itemView.findViewById(R.id.imageView2);
+            tvName = (TextView) itemView.findViewById(R.id.cast_name);
+            image = (ImageView) itemView.findViewById(R.id.cast_image);
 
         }
 
@@ -116,18 +114,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
         Defino un método que servirá para poner los datos de la película en los correspondientes textviews del layout e
         invocará al listener del adaptador cuando se haga click sobre la vista del viewHolder.
          */
-        public void bindMovie(final MovieListed movie, final MovieAdapter.OnItemClickListener listener) {
-            tvName.setText(movie.getTitle());
-            float puntuacion = (movie.getVote_average()) /2;
-            ratingBar.setNumStars(5);
-            ratingBar.setRating(puntuacion);
-            Picasso.get().load("http://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(image);
+        public void bindMovie(final CreditsListed movie, final OnItemClickListener listener) {
+            tvName.setText(movie.getName());
+            Picasso.get().load("http://image.tmdb.org/t/p/w500" + movie.getProfile_path()).into(image);
             //Glide.with(itemView.getContext()).load("http://image.tmdb.org/t/p/w500" + movie.getPoster_path()).into(image);
 
             /*Coloco el Listener a la vista)*/
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    listener.onItemClick(movie);
+                    //listener.onItemClick(movie);
                 }
             });
         }
@@ -137,7 +132,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     Método que limpia el array list de contenidos, carga los nuevos contenidos que se le pasan por parámetro e invoca a
     notifyDataSetChanged para hacer que se refresque la vista del RecyclerView
      */
-    public void swap(List<MovieListed> newListMovies) {
+    public void swap(List<CreditsListed> newListMovies) {
         list.clear();
         list.addAll(newListMovies);
         notifyDataSetChanged();

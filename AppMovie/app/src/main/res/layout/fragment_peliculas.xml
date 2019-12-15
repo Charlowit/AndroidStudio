@@ -29,9 +29,20 @@
             android:text="@string/search_box_string"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
+            android:textSize="24sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="16dp"></TextView>
+
+        <SearchView
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_white_rounded"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:id="@+id/textView1"
@@ -43,7 +54,7 @@
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#2C3848"
+        android:background="@drawable/texview_rounded_1"
         app:layout_constraintTop_toBottomOf="@+id/search_box"/>
 
     <androidx.recyclerview.widget.RecyclerView

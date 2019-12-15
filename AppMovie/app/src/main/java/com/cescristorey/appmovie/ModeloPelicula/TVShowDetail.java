@@ -36,6 +36,7 @@ public class TVShowDetail {
 
     // Getter Methods
 
+    public ArrayList<Object> getProduction_companies() { return production_companies;}
 
     public ArrayList<Object> getGenres() {
         return genres;

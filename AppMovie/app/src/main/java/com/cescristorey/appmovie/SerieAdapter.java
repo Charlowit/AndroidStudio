@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cescristorey.appmovie.ModeloPelicula.MovieListed;
+import com.cescristorey.appmovie.ModeloPelicula.TVShowListed;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,24 +20,24 @@ import java.util.List;
 /*
     Defino un adaptador que hereda de RecyclerView.Adaptar y que definirá una clase aninada llamada moviesViewHolder
  */
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHolder> {
+public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.moviesViewHolder> {
     /*
     Atributos
     */
     public final Context context; //Almacena el contexto donde se ejecutará
-    private ArrayList<MovieListed> list; //Almacenará las películas a mostrar
-    private MovieAdapter.OnItemClickListener listener; //Listener para cuando se haga click
+    private ArrayList<TVShowListed> list; //Almacenará las películas a mostrar
+    private SerieAdapter.OnItemClickListener listener; //Listener para cuando se haga click
 
     //Defino un interface con el OnItemClickListener
     public interface OnItemClickListener {
-        void onItemClick(MovieListed movie);
+        void onItemClick(TVShowListed movie);
     }
 
     /*
     Constructor
     */
-    public MovieAdapter(Context context) {
-        this.list = new ArrayList<MovieListed>();
+    public SerieAdapter(Context context) {
+        this.list = new ArrayList<TVShowListed>();
         this.context = context;
         setListener();
     }
@@ -47,15 +47,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     argumento una película
     */
     private void setListener () {
-        this.listener = new MovieAdapter.OnItemClickListener() {
+        this.listener = new SerieAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(MovieListed movie) {
-                //Toast.makeText(context,  movie.getTitle(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(context, Pelicula_Actividad.class);
+            public void onItemClick(TVShowListed movie) {
+                Intent intent = new Intent(context, Serie_Actividad.class);
                 int id = (int) movie.getId();
                 intent.putExtra("id", id);
                 context.startActivity(intent);
             }
+
         };
     }
 
@@ -78,7 +78,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     @Override
     public void onBindViewHolder(moviesViewHolder holder, int position) {
 
-        final MovieListed movie = list.get(position);
+        final TVShowListed movie = list.get(position);
         holder.bindMovie(movie, listener);
     }
 
@@ -116,8 +116,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
         Defino un método que servirá para poner los datos de la película en los correspondientes textviews del layout e
         invocará al listener del adaptador cuando se haga click sobre la vista del viewHolder.
          */
-        public void bindMovie(final MovieListed movie, final MovieAdapter.OnItemClickListener listener) {
-            tvName.setText(movie.getTitle());
+        public void bindMovie(final TVShowListed movie, final SerieAdapter.OnItemClickListener listener) {
+            tvName.setText(movie.getName());
             float puntuacion = (movie.getVote_average()) /2;
             ratingBar.setNumStars(5);
             ratingBar.setRating(puntuacion);
@@ -137,7 +137,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.moviesViewHo
     Método que limpia el array list de contenidos, carga los nuevos contenidos que se le pasan por parámetro e invoca a
     notifyDataSetChanged para hacer que se refresque la vista del RecyclerView
      */
-    public void swap(List<MovieListed> newListMovies) {
+    public void swap(List<TVShowListed> newListMovies) {
         list.clear();
         list.addAll(newListMovies);
         notifyDataSetChanged();
