@@ -2,15 +2,20 @@ package com.cescristorey.appmovie;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -20,11 +25,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cescristorey.appmovie.ModeloPelicula.CreditsFeed;
 import com.cescristorey.appmovie.ModeloPelicula.MovieDetail;
+import com.cescristorey.appmovie.ModeloPelicula.Result;
+import com.cescristorey.appmovie.ModeloPelicula.VideoDetail;
 import com.cescristorey.appmovie.retrofit.MovieService;
 import com.cescristorey.appmovie.retrofit.RetrofitInstance;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +46,9 @@ public class Pelicula_Actividad extends AppCompatActivity {
     RatingBar ratingBar;
     RecyclerView recyclerView;
     CastAdapter castAdapter;
+    Button botontrailer;
+    Result resultadofinal = new Result();
+    List<Result> resultados = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,22 +62,82 @@ public class Pelicula_Actividad extends AppCompatActivity {
 
 
     }
+    public void loadTrailer(int movieid){
+
+        /* Crea la instanncia de retrofit */
+        final MovieService[] getTrailer = {RetrofitInstance.getRetrofitInstance().create(MovieService.class)};
+        /* Se definen los parámetros de la llamada a la función getTopRated */
+        Call<VideoDetail> call = getTrailer[0].getTrailer(movieid, RetrofitInstance.getApiKey(), "en-US");
+        /* Se hace una llamada asíncrona a la API */
+        call.enqueue(new Callback<VideoDetail>() {
+            @Override
+
+            public void onResponse(Call<VideoDetail> call, Response<VideoDetail> response) {
+                Log.i("LLAMADA TRAILER", String.valueOf(response));
+                switch (response.code()) {
+                    /* En caso de respuesta correcta */
+                    case 200:
+                        /* En el objeto data de la clase MovieFeed se almacena el JSON convertido a objetos*/
+                        VideoDetail data = response.body();
+                        //Log.i("SIZE DATAGETRESULT", String.valueOf(data.getResults().size()));
+                        for(Result a : data.getResults()){
+
+                            resultados.add(a);
+
+                        }
+                        break;
+                    case 401:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VideoDetail> call, Throwable t) {
+                //Toast.makeText(MainActivity.this, "Error cargando películas", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     public void loadPelicula(MovieDetail movie){
 
         //Primera parte
         final String id_db = String.valueOf((int)movie.getId());
+        final int id_trailer = (int)movie.getId();
         final String titulo_db = movie.getTitle();
         final String imagen_db = movie.getPoster_path();
+        final boolean video = movie.getVideo();
         image = findViewById(R.id.image_pelicula);
         titulo = findViewById(R.id.titulo_pelicula);
         ratingBar = findViewById(R.id.ratingBar);
         descripcion = findViewById(R.id.descripcion);
+        botontrailer = findViewById(R.id.boton_trailer);
         Picasso.get().load("http://image.tmdb.org/t/p/w500" + movie.getPoster_path()).resize(412, 320).into(image);
         titulo.setText(movie.getTitle());
         float puntuacion = (movie.getVote_average()) /2;
         ratingBar.setNumStars(5);
         ratingBar.setRating(puntuacion);
         descripcion.setText(movie.getOverview());
+        loadTrailer(id_trailer);
+        if(resultados!= null){
+            for(int i = 0 ; i < resultados.size(); i++){
+                if(resultados.get(i).getSite().equals("YouTube")){
+                    resultadofinal = resultados.get(i);
+                }
+            }
+        }
+        botontrailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(),"ESTOY AQUI",Toast.LENGTH_SHORT).show();
+                String youtubeVideoId =  "https://www.youtube.com/watch?v=" + String.valueOf(resultadofinal.getKey()); //Id video.
+                Uri uri = Uri.parse(youtubeVideoId);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+
 
         //RECYCLER ACTORES
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_actores);

@@ -10,21 +10,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cescristorey.appmovie.FavoritosAdapter;
+import com.cescristorey.appmovie.FavoritosAdapterPelis;
+import com.cescristorey.appmovie.FavoritosAdapterSeries;
 import com.cescristorey.appmovie.FavoritosSQLiteHelper;
-import com.cescristorey.appmovie.MovieAdapter;
 import com.cescristorey.appmovie.R;
 
 public class FavoritosFragment extends Fragment {
 
     RecyclerView recyclerView,recyclerView2;
-    FavoritosAdapter favoritosAdapter, favoritosAdapter2;
+    FavoritosAdapterPelis favoritosAdapterPelis;
+    FavoritosAdapterSeries favoritosAdapterPelis2;
 
     TextView textViewFavoritos;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -43,9 +42,9 @@ public class FavoritosFragment extends Fragment {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(vista.getContext(), LinearLayoutManager.HORIZONTAL,false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
-            favoritosAdapter = new FavoritosAdapter(vista.getContext(), c);
-            recyclerView.setAdapter(favoritosAdapter);
-            favoritosAdapter.swap(c);
+            favoritosAdapterPelis = new FavoritosAdapterPelis(vista.getContext(), c);
+            recyclerView.setAdapter(favoritosAdapterPelis);
+            favoritosAdapterPelis.swap(c);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         }
@@ -57,9 +56,9 @@ public class FavoritosFragment extends Fragment {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(vista.getContext(), LinearLayoutManager.HORIZONTAL,false);
             recyclerView2.setLayoutManager(layoutManager);
             recyclerView2.setHasFixedSize(true);
-            favoritosAdapter2 = new FavoritosAdapter(vista.getContext(), a);
-            recyclerView2.setAdapter(favoritosAdapter2);
-            favoritosAdapter2.swap(c);
+            favoritosAdapterPelis2 = new FavoritosAdapterSeries(vista.getContext(), a);
+            recyclerView2.setAdapter(favoritosAdapterPelis2);
+            favoritosAdapterPelis2.swap(c);
             recyclerView2.setItemAnimator(new DefaultItemAnimator());
 
         }

@@ -6,6 +6,8 @@ import com.cescristorey.appmovie.ModeloPelicula.MovieDetail;
 import com.cescristorey.appmovie.ModeloPelicula.MovieFeed;
 import com.cescristorey.appmovie.ModeloPelicula.TVShowDetail;
 import com.cescristorey.appmovie.ModeloPelicula.TVShowFeed;
+import com.cescristorey.appmovie.ModeloPelicula.VideoDetail;
+import com.cescristorey.appmovie.ModeloPelicula.VideoDetailTV;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -27,6 +29,9 @@ public interface MovieService {
     @GET("movie/{movie_id}/credits")
     Call<CreditsFeed> getCast(@Path("movie_id") int id , @Query("api_key") String apiKey, @Query("language") String language);
 
+    @GET("movie/{movie_id}/videos")
+    Call<VideoDetail> getTrailer(@Path("movie_id") int id , @Query("api_key") String apiKey, @Query("language") String language);
+
     //TVSHOW
     @GET("tv/top_rated")
     Call<TVShowFeed> getTopRatedTvShow(@Query("api_key") String apiKey, @Query("language") String language);
@@ -39,6 +44,9 @@ public interface MovieService {
 
     @GET("tv/{tv_id}/credits")
     Call<CreditsFeed> getCastTvShow(@Path("tv_id") int id , @Query("api_key") String apiKey, @Query("language") String language);
+
+    @GET("tv/{tv_id}/videos")
+    Call<VideoDetailTV> getTrailerShow(@Path("tv_id") int id , @Query("api_key") String apiKey, @Query("language") String language);
 
 
 
